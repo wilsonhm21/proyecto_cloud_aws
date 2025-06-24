@@ -25,3 +25,16 @@ jobs:
         AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
         AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
         AWS_REGION: ${{ secrets.AWS_REGION }}
+
+    - name: Subir repuestos.csv al bucket de entrada S3
+      run: |
+        echo "Generando nombre con timestamp..."
+        timestamp=$(date +"%Y%m%d-%H%M")
+        filename="repuestos-${timestamp}.csv"
+        cp repuestos.csv "$filename"
+        echo "Subiendo $filename al bucket..."
+        aws s3 cp "$filename" s3://${{ secrets.INPUT_BUCKET }}/
+      env:
+        AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+        AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+        AWS_REGION: ${{ secrets.AWS_REGION }}
