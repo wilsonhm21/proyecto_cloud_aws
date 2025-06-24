@@ -1,0 +1,27 @@
+name: Despliegue completo de infraestructura
+
+on:
+  push:
+    branches: [main]
+
+jobs:
+  terraform:
+    name: Terraform Deploy
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Clonar repositorio
+      uses: actions/checkout@v3
+
+    - name: Instalar Terraform
+      uses: hashicorp/setup-terraform@v2
+
+    - name: Inicializar Terraform
+      run: terraform init
+
+    - name: Aplicar Terraform
+      run: terraform apply -auto-approve
+      env:
+        AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+        AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+        AWS_REGION: ${{ secrets.AWS_REGION }}
