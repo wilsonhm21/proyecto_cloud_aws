@@ -20,3 +20,13 @@ variable "rds_db" {
   type        = string
   default     = "reportes"
 }
+
+variable "ami_id" {
+  description = "AMI para EC2 (Ubuntu, Amazon Linux, etc.)"
+  type        = string
+}
+
+variable "key_name" {
+  description = "Nombre del par de claves EC2"
+  type        = string
+}

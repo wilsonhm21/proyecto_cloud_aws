@@ -18,9 +18,12 @@ module "lambda" {
 
 module "ec2" {
   source             = "git::https://github.com/wilsonhm21/aws_ec2.git"
+  ami_id             = var.ami_id
+  key_name           = var.key_name
   output_bucket_name = module.s3.output_bucket
   rds_host           = aws_db_instance.reportes.endpoint
   rds_user           = var.rds_user
   rds_pass           = var.rds_pass
   rds_db             = var.rds_db
 }
+

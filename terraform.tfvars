@@ -1,3 +1,5 @@
 rds_user = "admin"
 rds_pass = "claveSegura123"
 rds_db   = "reportes"
+ami_id   = "ami-0c7217cdde317cfec"    
+key_name = "wilson"
