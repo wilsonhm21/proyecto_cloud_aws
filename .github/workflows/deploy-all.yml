@@ -18,10 +18,9 @@ jobs:
 
     - name: Clonar y empaquetar código de Lambda
       run: |
-        https://github.com/wilsonhm21/aws_lambda.git
+        git clone https://github.com/wilsonhm21/aws_lambda.git
         cd aws_lambda/lambda
         zip -r ../../lambda.zip .
-        cd ../..
 
     - name: Inicializar Terraform
       run: terraform init
