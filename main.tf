@@ -14,6 +14,7 @@ module "lambda" {
   rds_user           = var.rds_user
   rds_pass           = var.rds_pass
   rds_db             = var.rds_db
+  lambda_zip_path    = "${path.module}/lambda.zip"
 }
 
 module "ec2" {
