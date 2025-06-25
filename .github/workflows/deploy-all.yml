@@ -26,14 +26,35 @@ jobs:
         AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
         AWS_REGION: ${{ secrets.AWS_REGION }}
 
+    - name: Esperar a que el bucket de entrada exista
+      run: |
+        echo "Esperando a que el bucket esté disponible..."
+        for i in {1..10}; do
+          aws s3 ls "s3://${{ secrets.INPUT_BUCKET }}" && break
+          echo "Bucket aún no disponible. Reintentando..."
+          sleep 5
+        done
+      env:
+        AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+        AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+        AWS_REGION: ${{ secrets.AWS_REGION }}
+
     - name: Subir repuestos.csv al bucket de entrada S3
       run: |
-        echo "Generando nombre con timestamp..."
         timestamp=$(date +"%Y%m%d-%H%M")
         filename="repuestos-${timestamp}.csv"
         cp repuestos.csv "$filename"
-        echo "Subiendo $filename al bucket..."
         aws s3 cp "$filename" s3://${{ secrets.INPUT_BUCKET }}/
+      env:
+        AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+        AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+        AWS_REGION: ${{ secrets.AWS_REGION }}
+
+    - name: Guardar IP EC2 en archivo y subir a S3
+      run: |
+        IP=$(terraform output -raw ec2_ip_publica)
+        echo "$IP" > ec2_ip.txt
+        aws s3 cp ec2_ip.txt s3://${{ secrets.OUTPUT_BUCKET }}/shared/ec2_ip.txt
       env:
         AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
         AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
