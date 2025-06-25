@@ -10,11 +10,18 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - name: Clonar repositorio
+    - name: Clonar repositorio principal
       uses: actions/checkout@v3
 
     - name: Instalar Terraform
       uses: hashicorp/setup-terraform@v2
+
+    - name: Clonar y empaquetar código de Lambda
+      run: |
+        https://github.com/wilsonhm21/aws_lambda.git
+        cd aws_lambda/lambda
+        zip -r ../../lambda.zip .
+        cd ../..
 
     - name: Inicializar Terraform
       run: terraform init
