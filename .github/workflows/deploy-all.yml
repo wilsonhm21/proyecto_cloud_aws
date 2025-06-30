@@ -20,7 +20,10 @@ jobs:
       run: |
         git clone https://github.com/wilsonhm21/aws_lambda.git
         cd aws_lambda/lambda
-        zip -r ../../lambda.zip .
+        pip install pymysql -t .
+        cd ..
+        zip -r ../lambda.zip lambda/
+
 
     - name: Inicializar Terraform
       run: terraform init
