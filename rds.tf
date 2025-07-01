@@ -3,6 +3,7 @@ resource "aws_db_instance" "reportes" {
   engine               = "mysql"
   engine_version       = "8.0"
   instance_class       = "db.t3.micro"
+  db_name              = "reportes"
   username             = var.rds_user
   password             = var.rds_pass
   skip_final_snapshot  = true
