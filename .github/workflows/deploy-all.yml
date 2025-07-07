@@ -58,6 +58,10 @@ jobs:
         AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
         AWS_REGION: ${{ secrets.AWS_REGION }}
 
+        #validar que antes que se genere la ip tenga una validacion de numero 1 con if
+        
+
+
     - name: Guardar IP EC2 en archivo y subir a S3
       run: |
         IP=$(terraform output -raw ec2_ip_publica)
